@@ -4,12 +4,14 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**"]
     },
     "lint": {},
+    "format": {},
     "dev": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "test": {}
   }
 }
