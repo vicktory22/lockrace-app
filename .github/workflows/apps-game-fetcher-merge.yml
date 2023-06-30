@@ -1,0 +1,51 @@
+name: GAME-FETCHER-PR
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/game-fetcher/**"
+
+jobs:
+  build:
+
+    name: Build and Test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    env:
+      VITE_GAMES_URL: ${{ secrets.VITE_GAMES_URL }}
+      VITE_LOKI_USER: ${{ secrets. VITE_LOKI_USER }}
+      VITE_LOKI_API_KEY: ${{ secrets.VITE_LOKI_API_KEY }}
+      VITE_LOKI_URL: ${{ secrets.VITE_LOKI_URL }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: npx turbo build -- filter
+
+      - name: Test
+        run: pnpm test
+
+      - name: Deploy
+        run: npx wrangler deploy apps/game-fetcher/src/index.ts --name refresh-games --compatibility-date 2023-05-09
