@@ -1,10 +1,6 @@
 name: GAME-FETCHER-PR
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - "apps/game-fetcher/**"
   pull_request:
     branches: [ main ]
     paths:
