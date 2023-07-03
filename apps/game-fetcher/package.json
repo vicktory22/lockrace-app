@@ -20,6 +20,6 @@
     "vite": "^4.3.9",
     "vitest": "^0.32.2",
     "wrangler": "^3.1.0",
-    "zod-fixture": "^1.9.0",
+    "zod-fixture": "^1.9.0"
   }
 }
