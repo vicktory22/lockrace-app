@@ -1,15 +1,16 @@
+import { lazy } from "solid-js";
+const App = lazy(() => import("./App"));
 /* @refresh reload */
-import { render } from 'solid-js/web';
+import { render } from "solid-js/web";
 
-import './index.css';
-import App from './App';
+import "./index.css";
 
-const root = document.getElementById('root');
+const root = document.getElementById("root");
 
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
+if ((import.meta.env.DEV && !(root instanceof HTMLElement)) || root === null) {
   throw new Error(
-    'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?',
+    "Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got mispelled?",
   );
 }
 
-render(() => <App />, root!);
+render(() => <App />, root);
