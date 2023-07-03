@@ -40,8 +40,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
-        run: npx turbo build -- filter
+      - name: Typecheck
+        run: npx turbo type:check --filter game-fetcher
 
       - name: Test
         run: pnpm test
