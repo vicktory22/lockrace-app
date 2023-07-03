@@ -1,4 +1,4 @@
-name: GAME-FETCHER-PR
+name: GAME-FETCHER-DEPLOYER
 
 on:
   push:
