@@ -1,3 +1,5 @@
+import { RequestInit } from "@cloudflare/workers-types";
+
 type FetcherOptions = RequestInit & {
 	timeout?: number;
 };
@@ -15,6 +17,8 @@ export const fetchWithTimeout = async (
 		controller.abort();
 	}, timeout);
 
+	// TODO: update `fetch` when available
+	// @ts-ignore
 	const response = await fetch(url, {
 		...options,
 		signal: controller.signal,
