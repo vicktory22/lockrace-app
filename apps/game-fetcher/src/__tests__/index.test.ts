@@ -1,3 +1,4 @@
+import { ExecutionContext, KVNamespace } from "@cloudflare/workers-types";
 import worker, { Env } from "../index";
 import { server } from "../mocks/server";
 import {
