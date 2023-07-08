@@ -4,8 +4,8 @@ import { isTestEnv } from "../utils/testing-setup";
 
 export type AppConfig = {
 	gamesUrl: string;
-	lokiUrl: string;
-	lokiBasicAuthToken: string;
+	logToUrl: string;
+	authToken: string;
 };
 
 export const getConfig = (env?: Env): AppConfig => {
@@ -22,8 +22,8 @@ export const getConfig = (env?: Env): AppConfig => {
 
 const testConfig = (env?: Env): AppConfig => ({
 	gamesUrl: env?.GAMES_URL || "http://localhost/games/200",
-	lokiUrl: env?.LOKI_URL || "http://localhost/200",
-	lokiBasicAuthToken: "test-loki-auth-token",
+	logToUrl: env?.LOKI_URL || "http://localhost/200",
+	authToken: "test-loki-auth-token",
 });
 
 const getFromMeta = (): AppConfig => {
@@ -32,8 +32,8 @@ const getFromMeta = (): AppConfig => {
 
 	return {
 		gamesUrl: VITE_GAMES_URL,
-		lokiUrl: VITE_LOKI_URL,
-		lokiBasicAuthToken: createToken(VITE_LOKI_USER, VITE_LOKI_API_KEY),
+		logToUrl: VITE_LOKI_URL,
+		authToken: createToken(VITE_LOKI_USER, VITE_LOKI_API_KEY),
 	};
 };
 
@@ -42,8 +42,8 @@ const getFromEnv = (env: Env): AppConfig => {
 
 	return {
 		gamesUrl: GAMES_URL,
-		lokiUrl: LOKI_URL,
-		lokiBasicAuthToken: createToken(LOKI_USER, LOKI_API_KEY),
+		logToUrl: LOKI_URL,
+		authToken: createToken(LOKI_USER, LOKI_API_KEY),
 	};
 };
 

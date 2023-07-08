@@ -1,8 +1,8 @@
+import { getLogger } from "logger";
 import { getConfig } from "./config/config-manager";
-import { getGames } from "./games";
-import { getLogger } from "./logger/logger-manager";
-import { encasePromise } from "./result";
-import type { KVNamespace, ExecutionContext } from "@cloudflare/workers-types";
+import { getGames } from "./games/games.service";
+import { KVNamespace, ExecutionContext } from "@cloudflare/workers-types";
+import { tryCatchPromise } from "./helpers/try-catch";
 
 export interface Env {
 	GAMES_URL: string;
@@ -15,26 +15,29 @@ export interface Env {
 export default {
 	async scheduled(_event: unknown, env: Env, ctx: ExecutionContext) {
 		const config = getConfig(env);
-		const logger = getLogger(config);
+		const logger = getLogger({
+			logToUrl: config.logToUrl,
+			authToken: config.authToken,
+			appName: "game-fetcher",
+		});
 
-		const [getGamesResponse, getGamesError] = await getGames(config.gamesUrl);
+		const getGamesResult = await getGames(config.gamesUrl);
 
-		if (getGamesError) {
-			ctx.waitUntil(logger.error(getGamesError));
+		if (getGamesResult.isErr()) {
+			ctx.waitUntil(logger.error(getGamesResult.unwrapErr()));
 			return;
 		}
 
-		const { day, games } = getGamesResponse;
+		const { day, games } = getGamesResult.unwrap();
 
-		const [, saveGamesError] = await encasePromise(
+		const saveGamesResult = await tryCatchPromise(
 			env.DB.put(day, JSON.stringify(games)),
+			(err) => new Error("KV store error", { cause: err }),
 		);
 
-		if (saveGamesError) {
-			ctx.waitUntil(logger.error(saveGamesError));
-			return;
-		}
-
-		ctx.waitUntil(logger.info("Games were pulled successfully"));
+		saveGamesResult.match({
+			ok: () => ctx.waitUntil(logger.info("Games were pulled successfully")),
+			err: (err) => ctx.waitUntil(logger.error(err)),
+		});
 	},
 };

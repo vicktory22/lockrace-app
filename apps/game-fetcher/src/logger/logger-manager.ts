@@ -2,6 +2,7 @@ import { AppConfig } from "../config/config-manager";
 import { isTestEnv } from "../utils/testing-setup";
 import { lokiLogger } from "./loki-logger";
 import { testLogger } from "./test-logger";
+import { logger } from "logger";
 
 export type Logger = {
 	info: (message: string) => Promise<void>;
