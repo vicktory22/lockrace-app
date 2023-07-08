@@ -14,7 +14,7 @@ import {
 const infoLoggerMock = vi.fn();
 const errorLoggerMock = vi.fn();
 
-vi.mock("../logger/logger-manager.ts", () => {
+vi.mock("logger", () => {
 	return {
 		getLogger: () => ({
 			info: infoLoggerMock,
@@ -67,7 +67,9 @@ describe("Worker", () => {
 		expect(errorLoggerMock).toHaveBeenCalledWith(expect.any(Error));
 
 		const error = errorLoggerMock.mock.lastCall[0];
-		expect(error).toMatchInlineSnapshot("[Error: 500 - Internal Server Error]");
+		expect(error).toMatchInlineSnapshot(
+			"[GetGamesError: 500 - Internal Server Error]",
+		);
 	});
 
 	it("should log an error if there is an error when saving to the KV store", async () => {

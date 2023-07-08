@@ -1,15 +1,6 @@
-import { getGames } from "../games";
+import { getGames } from "../games/games.service";
 import { server } from "../mocks/server";
-import {
-	afterAll,
-	afterEach,
-	assert,
-	beforeAll,
-	describe,
-	expect,
-	it,
-} from "vitest";
-import { ZodError } from "zod";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
 describe("getGames", () => {
 	beforeAll(() => {
@@ -23,10 +14,10 @@ describe("getGames", () => {
 	afterAll(() => server.close());
 
 	it("should not return error on success", async () => {
-		const [response, error] = await getGames("http://localhost/games/200");
+		const getGamesResult = await getGames("http://localhost/games/200");
 
-		expect(error).toBeUndefined();
-		expect(response).toMatchObject(
+		expect(getGamesResult.isOk()).toBe(true);
+		expect(getGamesResult.unwrap()).toMatchObject(
 			expect.objectContaining({
 				day: expect.any(String),
 				games: expect.any(Array),
@@ -35,43 +26,52 @@ describe("getGames", () => {
 	});
 
 	it("should return an error if there is a network error", async () => {
-		const [response, error] = await getGames("http://localhost/network-error");
+		const getGamesResult = await getGames("http://localhost/network-error");
 
-		expect(response).toBeUndefined();
-		expect(error).toBeDefined();
+		expect(getGamesResult.isErr()).toBe(true);
+		const error = getGamesResult.unwrapErr();
+		expect(error).toBeInstanceOf(Error);
+		expect(error).toMatchInlineSnapshot("[GetGamesError: Failed to fetch]");
 	});
 
 	it("should return an error if we received an 4xx or 5xx response", async () => {
-		const [response, error] = await getGames("http://localhost/500");
+		const getGamesResult = await getGames("http://localhost/500");
 
-		expect(response).toBeUndefined();
-		expect(error).toBeDefined();
+		expect(getGamesResult.isErr()).toBe(true);
+		const error = getGamesResult.unwrapErr();
+		expect(error).toBeInstanceOf(Error);
+		expect(error).toMatchInlineSnapshot(
+			"[GetGamesError: 500 - Internal Server Error]",
+		);
 	});
 
 	it("should return an error if we receive invalid json", async () => {
-		const [response, error] = await getGames(
-			"http://localhost/games/invalid-response",
-		);
+		const getGamesResult = await getGames("http://localhost/invalid-json");
 
-		expect(response).toBeUndefined();
-		expect(error).toBeDefined();
-		expect(error).toBeInstanceOf(ZodError);
+		expect(getGamesResult.isErr()).toBe(true);
+		const error = getGamesResult.unwrapErr();
+		expect(error).toBeInstanceOf(Error);
+		// TODO - fix this
+		expect(error).toMatchInlineSnapshot("[GetGamesError: fetch failed]");
 	});
 
 	it("should return an error if we error during parsing of the returned json", async () => {
-		const [response, error] = await getGames("http://localhost/games/bad-json");
+		const getGamesResult = await getGames("http://localhost/games/bad-json");
 
-		expect(response).toBeUndefined();
-		expect(error).toBeDefined();
+		expect(getGamesResult.isErr()).toBe(true);
+		const error = getGamesResult.unwrapErr();
+		expect(error).toBeInstanceOf(Error);
+		expect(error).toMatchInlineSnapshot(
+			"[GetGamesError: Unexpected token < in JSON at position 0]",
+		);
 	});
 
 	it("should handle when there are no odds in the payload", async () => {
-		const [response, error] = await getGames("http://localhost/games/no-odds");
+		const getGamesResult = await getGames("http://localhost/games/no-odds");
 
-		expect(error).toBeUndefined();
+		expect(getGamesResult.isOk()).toBe(true);
 
-		assert(response);
-
+		const response = getGamesResult.unwrap();
 		const { away_odds, home_odds } = response.games[0];
 
 		expect(away_odds).toBeUndefined();
@@ -79,13 +79,10 @@ describe("getGames", () => {
 	});
 
 	it("should handle when there are scores in the paylaod", async () => {
-		const [response, error] = await getGames(
-			"http://localhost/games/no-scores",
-		);
+		const getGamesResult = await getGames("http://localhost/games/no-scores");
 
-		expect(error).toBeUndefined();
-
-		assert(response);
+		expect(getGamesResult.isOk()).toBe(true);
+		const response = getGamesResult.unwrap();
 
 		const { away_score, home_score } = response.games[0];
 

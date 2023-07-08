@@ -7,9 +7,9 @@ describe("ConfigManager", () => {
 
 		expect(config).toMatchInlineSnapshot(`
       {
+        "authToken": "test-loki-auth-token",
         "gamesUrl": "http://localhost/games/200",
-        "lokiBasicAuthToken": "test-loki-auth-token",
-        "lokiUrl": "http://localhost/200",
+        "logToUrl": "http://localhost/200",
       }
     `);
 	});
