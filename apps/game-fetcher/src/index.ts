@@ -28,12 +28,16 @@ export default {
 			return;
 		}
 
+    ctx.waitUntil(logger.info("Games fetched successfully"));
+
 		const { day, games } = getGamesResult.unwrap();
 
 		const saveGamesResult = await tryCatchPromise(
 			env.DB.put(day, JSON.stringify(games)),
 			(err) => new Error("KV store error", { cause: err }),
 		);
+
+    ctx.waitUntil(logger.info("Games saved to KV store successfully"));
 
 		saveGamesResult.match({
 			ok: () => ctx.waitUntil(logger.info("Games were pulled successfully")),
