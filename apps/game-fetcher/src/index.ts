@@ -28,7 +28,7 @@ export default {
 			return;
 		}
 
-    ctx.waitUntil(logger.info("Games fetched successfully"));
+		ctx.waitUntil(logger.info("Games fetched successfully"));
 
 		const { day, games } = getGamesResult.unwrap();
 
@@ -37,7 +37,7 @@ export default {
 			(err) => new Error("KV store error", { cause: err }),
 		);
 
-    ctx.waitUntil(logger.info("Games saved to KV store successfully"));
+		ctx.waitUntil(logger.info("Games saved to KV store successfully"));
 
 		saveGamesResult.match({
 			ok: () => ctx.waitUntil(logger.info("Games were pulled successfully")),
