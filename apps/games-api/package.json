@@ -9,7 +9,8 @@
     "test": "echo \"Error: no tests specified\""
   },
   "dependencies": {
-    "itty-router": "^4.0.14"
+    "itty-router": "^4.0.14",
+    "tsconfig": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230628.0",
