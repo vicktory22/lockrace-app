@@ -173,7 +173,21 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0(zod@3.21.4)
 
-  apps/games-api: {}
+  apps/games-api:
+    dependencies:
+      itty-router:
+        specifier: ^4.0.14
+        version: 4.0.14
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20230628.0
+        version: 4.20230628.0
+      rome:
+        specifier: ^12.0.0
+        version: 12.0.0
 
   packages/logger:
     dependencies:
@@ -674,6 +688,10 @@ packages:
 
   /@cloudflare/workers-types@4.20230518.0:
     resolution: {integrity: sha512-A0w1V+5SUawGaaPRlhFhSC/SCDT9oQG8TMoWOKFLA4qbqagELqEAFD4KySBIkeVOvCBLT1DZSYBMCxbXddl0kw==}
+
+  /@cloudflare/workers-types@4.20230628.0:
+    resolution: {integrity: sha512-dpOFJJPEEWahLJKhj+xRY+VwXu/s/634CVsLVnTNDCfs2KXZx9nwQ/04M0OKBJFdc6jheWwAAv/AGvRvrTDkDg==}
+    dev: true
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4917,6 +4935,10 @@ packages:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.0
     dev: true
+
+  /itty-router@4.0.14:
+    resolution: {integrity: sha512-s8DfaLkQp+E3kBhjwto3Z91ozulotCLAmlS8AIr230NqwFJssiGIoewo1P+CEkZ3YrzghS9k/RVvmMlvKQxueQ==}
+    dev: false
 
   /jest-diff@29.5.0:
     resolution: {integrity: sha512-LtxijLLZBduXnHSniy0WMdaHjmQnt3g5sa16W4p0HqukYTTsyTW3GD1q41TyGl5YFXj/5B2U6dlh5FM1LIMgxw==}
