@@ -5,7 +5,8 @@
   "scripts": {
     "type:check": "tsc --noEmit",
     "format": "npx rome format ./src --write",
-    "lint": "npx rome check --apply-unsafe ./src"
+    "lint": "npx rome check --apply-unsafe ./src",
+    "test": "echo \"Error: no tests specified\""
   },
   "dependencies": {
     "itty-router": "^4.0.14"
