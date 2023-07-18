@@ -1,17 +1,16 @@
 {
+  "name": "lockrace-api",
   "private": true,
+  "packageManager": "pnpm@7.15.0",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "test": "dotenv -- turbo run test"
+    "test": "turbo run test"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
-    "dotenv-cli": "^7.2.1",
     "turbo": "latest"
-  },
-  "packageManager": "pnpm@7.15.0",
-  "name": "lockrace-api"
+  }
 }
