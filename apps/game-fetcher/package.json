@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@sniptt/monads": "^0.5.10",
+    "dotenv-cli": "^7.2.1",
     "neverthrow": "^6.0.0",
     "zod": "^3.21.4"
   },
