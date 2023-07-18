@@ -1,0 +1,43 @@
+name: APP-CONFIG
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "packages/app-config/**"
+
+env:
+  APP_NAME: app-config 
+
+jobs:
+  build:
+
+    name: Build and Test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Typecheck
+        run: npx turbo run type:check --filter $APP_NAME 
+
+      - name: Test
+        run: npx turbo run test --filter $APP_NAME
