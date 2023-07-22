@@ -1,16 +1,27 @@
 name = "lockrace-game-fetcher"
-main = "src/index.ts"
+main = "./src/index.ts"
 compatibility_date = "2023-05-11"
+
+# used to turn off setting up of *.workers.dev subdomain since
+# since this is only a scheduled worker
 workers_dev = false
 
-kv_namespaces = [
-  { binding = "DB", id = "3bec0009978745ef876f8fbcf6f1797f", preview_id = "0af4885463454e4abe264658308e90cf" }
-]
+[vars]
+GAMES_URL = "http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+LOGGER_URL = "https://logs-prod-us-central2.grafana.net/loki/api/v1/push"
+LOGGER_USER = "477117"
 
 [triggers]
 crons = [ "0 * * * *" ]
 
-[vars]
-GAMES_URL = "http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
-LOKI_URL = "https://logs-prod-us-central2.grafana.net/loki/api/v1/push"
-LOKI_USER = "477117"
+[env.staging]
+kv_namespaces = [
+  { binding = "DB", id = "0af4885463454e4abe264658308e90cf" }
+]
+
+[env.production]
+kv_namespaces = [
+  { binding = "DB", id = "3bec0009978745ef876f8fbcf6f1797f" }
+]
+
+
