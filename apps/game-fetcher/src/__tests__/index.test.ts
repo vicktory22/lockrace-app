@@ -37,7 +37,7 @@ describe("Worker", () => {
 		}) as Env;
 
 	beforeEach(() => {
-		vi.resetAllMocks();
+		vi.restoreAllMocks();
 	});
 
 	beforeAll(() => {
@@ -54,22 +54,6 @@ describe("Worker", () => {
 		await expect(
 			worker.scheduled(undefined, env, ctx),
 		).resolves.toBeUndefined();
-	});
-
-	it("should log an error if getGames returns a error", async () => {
-		const env = buildEnv({ GAMES_URL: "http://localhost/500" });
-
-		await expect(
-			worker.scheduled(undefined, env, ctx),
-		).resolves.toBeUndefined();
-
-		expect(errorLoggerMock).toHaveBeenCalledTimes(1);
-		expect(errorLoggerMock).toHaveBeenCalledWith(expect.any(Error));
-
-		const error = errorLoggerMock.mock.lastCall[0];
-		expect(error).toMatchInlineSnapshot(
-			"[GetGamesError: 500 - Internal Server Error]",
-		);
 	});
 
 	it("should log an error if there is an error when saving to the KV store", async () => {

@@ -1,15 +1,30 @@
+import { ResultAsync, errAsync, fromPromise, okAsync } from "neverthrow";
 import { Event } from "../schemas/event.schema";
 import { FetchGamesResponse } from "../schemas/fetch-games.schema";
-import { Game, GetGamesResponse } from "../types";
+import { Game, GetGamesResponse } from "./types";
 import { GetGamesError } from "./games.errors";
 
-export const handleBadRequest = (response: Response) => {
+export const handleBadRequest = (
+	response: Response,
+): ResultAsync<Response, GetGamesError> => {
 	if (!response.ok) {
-		throw GetGamesError.badRequest(response.status, response.statusText);
+		return errAsync(
+			GetGamesError.badRequest(response.status, response.statusText),
+		);
 	}
 
-	return response;
+	return okAsync(response);
 };
+
+export const parseGamesResponseJson = (response: Response) =>
+	fromPromise<unknown, GetGamesError>(response.json(), (err) =>
+		GetGamesError.from(err),
+	);
+
+export const validateGamesResponse = (gamesResponse: unknown) =>
+	fromPromise(FetchGamesResponse.parseAsync(gamesResponse), (err) =>
+		GetGamesError.from(err),
+	);
 
 export const parseGamesResponse = (
 	response: FetchGamesResponse,
