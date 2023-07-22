@@ -1,4 +1,4 @@
-name = "lockrace-game-fetcher"
+name = "game-fetcher"
 main = "./src/index.ts"
 compatibility_date = "2023-05-11"
 

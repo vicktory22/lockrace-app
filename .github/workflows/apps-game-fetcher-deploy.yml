@@ -42,4 +42,4 @@ jobs:
         run: npx turbo run test --filter $APP_NAME
 
       - name: Deploy
-        run: npx wrangler deploy apps/$APP_NAME/src/index.ts --name $APP_NAME --env production
+        run: npx wrangler deploy apps/$APP_NAME/src/index.ts --env production
