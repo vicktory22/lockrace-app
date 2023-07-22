@@ -1,6 +1,14 @@
 import { getGames } from "../games/games.service";
 import { server } from "../mocks/server";
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import {
+	afterAll,
+	afterEach,
+	assert,
+	beforeAll,
+	describe,
+	expect,
+	it,
+} from "vitest";
 
 describe("getGames", () => {
 	beforeAll(() => {
@@ -16,8 +24,9 @@ describe("getGames", () => {
 	it("should not return error on success", async () => {
 		const getGamesResult = await getGames("http://localhost/games/200");
 
-		expect(getGamesResult.isOk()).toBe(true);
-		expect(getGamesResult.unwrap()).toMatchObject(
+		assert(getGamesResult.isOk());
+
+		expect(getGamesResult.value).toMatchObject(
 			expect.objectContaining({
 				day: expect.any(String),
 				games: expect.any(Array),
@@ -28,8 +37,9 @@ describe("getGames", () => {
 	it("should return an error if there is a network error", async () => {
 		const getGamesResult = await getGames("http://localhost/network-error");
 
-		expect(getGamesResult.isErr()).toBe(true);
-		const error = getGamesResult.unwrapErr();
+		assert(getGamesResult.isErr());
+
+		const error = getGamesResult.error;
 		expect(error).toBeInstanceOf(Error);
 		expect(error).toMatchInlineSnapshot("[GetGamesError: Failed to fetch]");
 	});
@@ -37,8 +47,9 @@ describe("getGames", () => {
 	it("should return an error if we received an 4xx or 5xx response", async () => {
 		const getGamesResult = await getGames("http://localhost/500");
 
-		expect(getGamesResult.isErr()).toBe(true);
-		const error = getGamesResult.unwrapErr();
+		assert(getGamesResult.isErr());
+
+		const error = getGamesResult.error;
 		expect(error).toBeInstanceOf(Error);
 		expect(error).toMatchInlineSnapshot(
 			"[GetGamesError: 500 - Internal Server Error]",
@@ -48,8 +59,9 @@ describe("getGames", () => {
 	it("should return an error if we receive invalid json", async () => {
 		const getGamesResult = await getGames("http://localhost/invalid-json");
 
-		expect(getGamesResult.isErr()).toBe(true);
-		const error = getGamesResult.unwrapErr();
+		assert(getGamesResult.isErr());
+
+		const error = getGamesResult.error;
 		expect(error).toBeInstanceOf(Error);
 		// TODO - fix this
 		expect(error).toMatchInlineSnapshot("[GetGamesError: fetch failed]");
@@ -58,8 +70,9 @@ describe("getGames", () => {
 	it("should return an error if we error during parsing of the returned json", async () => {
 		const getGamesResult = await getGames("http://localhost/games/bad-json");
 
-		expect(getGamesResult.isErr()).toBe(true);
-		const error = getGamesResult.unwrapErr();
+		assert(getGamesResult.isErr());
+
+		const error = getGamesResult.error;
 		expect(error).toBeInstanceOf(Error);
 		expect(error).toMatchInlineSnapshot(
 			"[GetGamesError: Unexpected token < in JSON at position 0]",
@@ -69,9 +82,9 @@ describe("getGames", () => {
 	it("should handle when there are no odds in the payload", async () => {
 		const getGamesResult = await getGames("http://localhost/games/no-odds");
 
-		expect(getGamesResult.isOk()).toBe(true);
+		assert(getGamesResult.isOk());
 
-		const response = getGamesResult.unwrap();
+		const response = getGamesResult.value;
 		const { away_odds, home_odds } = response.games[0];
 
 		expect(away_odds).toBeUndefined();
@@ -81,8 +94,9 @@ describe("getGames", () => {
 	it("should handle when there are scores in the paylaod", async () => {
 		const getGamesResult = await getGames("http://localhost/games/no-scores");
 
-		expect(getGamesResult.isOk()).toBe(true);
-		const response = getGamesResult.unwrap();
+		assert(getGamesResult.isOk());
+
+		const response = getGamesResult.value;
 
 		const { away_score, home_score } = response.games[0];
 
