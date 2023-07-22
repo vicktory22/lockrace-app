@@ -23,5 +23,9 @@ kv_namespaces = [
 kv_namespaces = [
   { binding = "DB", id = "3bec0009978745ef876f8fbcf6f1797f" }
 ]
+[env.production.vars]
+GAMES_URL = "http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+LOGGER_URL = "https://logs-prod-us-central2.grafana.net/loki/api/v1/push"
+LOGGER_USER = "477117"
 
 
