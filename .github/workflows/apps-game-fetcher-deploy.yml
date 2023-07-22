@@ -1,0 +1,45 @@
+name: GAME-FETCHER-PROD-DEPLOYER
+
+on:
+  workflow_dispatch:
+
+env:
+  APP_NAME: game-fetcher
+
+jobs:
+  build:
+    name: Build and Test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    env:
+      LOGGER_API_KEY: ${{ secrets.LOGGER_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: Checkout out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Type check
+        run: npx turbo run type:check --filter $APP_NAME
+
+      - name: Test
+        run: npx turbo run test --filter $APP_NAME
+
+      - name: Deploy
+        run: npx wrangler deploy apps/$APP_NAME/src/index.ts --name $APP_NAME --env production
