@@ -1,4 +1,4 @@
-/* v8 ignore start */
+/* c8 ignore start */
 import { rest } from "msw";
 
 export const errorHandlers = [
@@ -20,4 +20,4 @@ export const defaultHandlers = [
 		return res(ctx.status(200));
 	}),
 ];
-/* v8 ignore stop */
+/* c8 ignore stop */
