@@ -1,4 +1,4 @@
-/* v8 ignore start */
+/* c8 ignore start */
 export type Result<T, E = unknown> = [T, undefined] | [undefined, E];
 
 export const Ok = <T>(value: T): [T, undefined] => [value, undefined];
@@ -24,4 +24,4 @@ export const encasePromise = async <T>(fn: Promise<T>) => {
 		return Err(new Error("Unknown error", { cause: e }));
 	}
 };
-/* v8 ignore stop */
+/* c8 ignore stop */
