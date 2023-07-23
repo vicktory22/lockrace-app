@@ -18,9 +18,12 @@ crons = [ "0 * * * *" ]
 kv_namespaces = [
   { binding = "DB", id = "0af4885463454e4abe264658308e90cf" }
 ]
+[env.staging.vars]
 GAMES_URL = "http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
 LOGGER_URL = "https://logs-prod-us-central2.grafana.net/loki/api/v1/push"
 LOGGER_USER = "477117"
+[env.staging.triggers]
+crons = [ "0 0 1 1 *" ]
 
 [env.production]
 kv_namespaces = [
