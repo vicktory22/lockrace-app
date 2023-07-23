@@ -48,4 +48,4 @@ jobs:
         run: npx turbo run test --filter game-fetcher
 
       - name: Deploy
-        run: npx wrangler deploy apps/game-fetcher/src/index.ts --name game-fetcher --compatibility-date 2023-05-09
+        run: npx wrangler deploy apps/game-fetcher/src/index.ts --name game-fetcher --compatibility-date 2023-05-09 --env staging
