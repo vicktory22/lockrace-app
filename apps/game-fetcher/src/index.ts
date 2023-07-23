@@ -22,8 +22,6 @@ export default {
 			externalApiKey: config.logger.apiKey,
 		});
 
-    console.log({ config, logger });
-
 		const getGamesResult = await getGames(config.games.url);
 
 		if (getGamesResult.isErr()) {
