@@ -1,0 +1,7 @@
+name = "my-app"
+main = "./src/index.ts"
+compatibility_date = "2023-01-01"
+
+kv_namespaces = [
+  { binding = "DB", id = "0af4885463454e4abe264658308e90cf", preview_id = "3bec0009978745ef876f8fbcf6f1797f" }
+]
