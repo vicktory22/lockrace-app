@@ -1,0 +1,18 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "target": "es2022",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "lib": [
+      "esnext"
+    ],
+    "types": [
+      "@cloudflare/workers-types",
+      "jest-environment-miniflare/globals"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
+  },
+}
