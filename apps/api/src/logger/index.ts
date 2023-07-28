@@ -1,12 +1,11 @@
 export function getLogger() {
+	return {
+		info: (message: string) => {
+			console.log(message);
+		},
 
-  return {
-    info: (message: string) => {
-      console.log(message);
-    },
-
-    error: (message: string | Error) => {
-      console.error(message);
-    }
-  };
+		error: (message: string | Error) => {
+			console.error(message);
+		},
+	};
 }

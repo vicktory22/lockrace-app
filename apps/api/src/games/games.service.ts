@@ -6,15 +6,15 @@ import { Game } from "./games.types";
 import { GamesError } from "./games.errors";
 
 export async function fetchGames(
-	context?: AppContext
+	context?: AppContext,
 ): Promise<Game[] | Error> {
-  const today = dayjs();
+	const today = dayjs();
 
 	const db = getDatabase(context?.env?.DB);
 
-  if (db instanceof Error) {
-    return db;
-  }
+	if (db instanceof Error) {
+		return db;
+	}
 
 	const [teamsResult, gamesResult] = await Promise.all([
 		db
@@ -28,11 +28,11 @@ export async function fetchGames(
 	]);
 
 	if (teamsResult instanceof Error) {
-    return GamesError.fromTeams(teamsResult);
+		return GamesError.fromTeams(teamsResult);
 	}
 
 	if (gamesResult instanceof Error) {
-    return GamesError.fromGames(gamesResult);
+		return GamesError.fromGames(gamesResult);
 	}
 
 	return mergeResults(teamsResult, gamesResult);
