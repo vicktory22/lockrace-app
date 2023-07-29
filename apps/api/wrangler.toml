@@ -1,4 +1,4 @@
-name = "Lockrace-API"
+name = "lockrace-api"
 main = "./src/index.ts"
 compatibility_date = "2023-05-09"
 
