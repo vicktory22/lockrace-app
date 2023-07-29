@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts",
     "deploy": "wrangler deploy --minify src/index.ts",
+    "type:check": "tsc --noEmit",
     "format": "npx rome format ./src --write",
     "lint": "npx rome check --apply-unsafe ./src",
     "test": "jest"
