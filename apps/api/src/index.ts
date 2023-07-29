@@ -6,7 +6,7 @@ import { corsMiddleware } from "./middleware/cors.middleware";
 
 const app = new Hono<AppEnv>();
 
-app.use('/games', corsMiddleware);
+app.use("/games", corsMiddleware);
 
 app.onError(handleErrors);
 app.notFound(handleNotFound);
