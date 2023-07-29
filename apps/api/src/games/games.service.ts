@@ -1,6 +1,7 @@
-import { getDatabase } from "../database";
+import { KVDatabase, getDatabase } from "../database";
 import { KVGame, Team } from "../types";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { AppContext } from "../types";
 import { Game } from "./games.types";
 import { GamesError } from "./games.errors";
@@ -8,7 +9,12 @@ import { GamesError } from "./games.errors";
 export async function fetchGames(
 	context?: AppContext,
 ): Promise<Game[] | Error> {
-	const today = dayjs();
+	dayjs.extend(utc);
+	const today = dayjs().utc();
+
+	if (today.hour() < 9) {
+		return [];
+	}
 
 	const db = getDatabase(context?.env?.DB);
 
