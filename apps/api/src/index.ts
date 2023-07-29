@@ -1,9 +1,14 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { handleErrors, handleNotFound } from "./errors";
 import { fetchGames } from "./games/games.service";
 import { AppEnv } from "./types";
 
 const app = new Hono<AppEnv>();
+
+app.use("/*", cors({
+  origin: ["http://localhost:3000"],
+}));
 
 app.onError(handleErrors);
 app.notFound(handleNotFound);
