@@ -1,0 +1,44 @@
+name: GAMES-API-MERGE
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+
+jobs:
+  build:
+
+    name: Build and Test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Type Check
+        run: npx turbo run type:check --filter api
+
+      - name: Test
+        run: npx turbo run test --filter api
+
+      - name: Deploy
+        run: npx wrangler deploy apps/api/src/index.ts --compatibility-date 2023-05-09 --env staging
