@@ -1,4 +1,4 @@
-import { KVDatabase, getDatabase } from "../database";
+import { getDatabase } from "../database";
 import { KVGame, Team } from "../types";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
