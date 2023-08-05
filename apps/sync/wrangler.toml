@@ -3,18 +3,18 @@ main = "./src/index.ts"
 compatibility_date = "2023-05-09"
 
 kv_namespaces = [
-  { binding = "FOOTBALL-METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
-  { binding = "FOOTBALL-GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
+  { binding = "FOOTBALL_METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
+  { binding = "FOOTBALL_GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
 ]
 
 [env.staging]
 kv_namespaces = [
-  { binding = "FOOTBALL-METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
-  { binding = "FOOTBALL-GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
+  { binding = "FOOTBALL_METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
+  { binding = "FOOTBALL_GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
 ]
 
 [env.production]
 kv_namespaces = [
-  { binding = "FOOTBALL-METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
-  { binding = "FOOTBALL-GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
+  { binding = "FOOTBALL_METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
+  { binding = "FOOTBALL_GAMES", id = "e0818607bc4343da8c4cc6546b14ce74", preview_id = "c9458c08ddd04238a790efeb848298bd" }
 ]
