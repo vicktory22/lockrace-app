@@ -6,8 +6,8 @@ import {
 
 export interface Env {
 	GAMES_URL: string;
-	TEAMS: KVNamespace;
-	GAMES: KVNamespace;
+	FOOTBALL_METADATA: KVNamespace;
+	FOOTBALL_GAMES: KVNamespace;
 }
 
 export default {
