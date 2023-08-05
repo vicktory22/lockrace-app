@@ -32,7 +32,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm install --filter $APP_NAME
 
       - name: Type check
         run: npx turbo run type:check --filter $APP_NAME
