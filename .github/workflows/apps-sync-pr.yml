@@ -35,7 +35,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --filter $APP_NAME
 
       - name: Typecheck
         run: npx turbo run type:check --filter $APP_NAME
