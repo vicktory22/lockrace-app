@@ -1,4 +1,4 @@
-name: GAMES-API-PROD-DEPLOYER
+name: SYNC-PROD-DEPLOYER
 
 on:
   workflow_dispatch:
