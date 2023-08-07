@@ -16,5 +16,5 @@ export default {
 		const weeks = await fetchWeeksFromKV(env.FOOTBALL_METADATA);
 
 		return new Response(JSON.stringify(weeks));
-
+  },
 };
