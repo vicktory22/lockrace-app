@@ -3,6 +3,7 @@ import {
 	KVNamespace,
 	Request as WorkerRequest,
 } from "@cloudflare/workers-types";
+import { fetchWeeksFromKV } from "./weeks";
 
 export interface Env {
 	GAMES_URL: string;
@@ -11,7 +12,9 @@ export interface Env {
 }
 
 export default {
-	async fetch(_request: WorkerRequest, _env: Env, _ctx: ExecutionContext) {
-		return new Response("Hello World!");
-	},
+	async fetch(_request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
+		const weeks = await fetchWeeksFromKV(env.FOOTBALL_METADATA);
+
+		return new Response(JSON.stringify(weeks));
+  },
 };
