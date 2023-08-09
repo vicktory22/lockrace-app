@@ -5,8 +5,14 @@ export async function fetchWeeksFromKV(kv: KVNamespace): Promise<KVWeek[]> {
 	const weeks: string | Error = await kv.get("weeks").catch((err) => err);
 
 	if (weeks instanceof Error) {
+    console.error("Error fetching weeks from KV", weeks);
 		return [];
 	}
 
-	return JSON.parse(weeks);
+  try {
+    return JSON.parse(weeks);
+  } catch (err) {
+    console.error("Error parsing weeks from KV", err);
+    return [];
+  }
 }
