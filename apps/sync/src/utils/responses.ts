@@ -5,4 +5,6 @@ export const reply = {
   },
 
   ok: (body: string) => new Response(body, { status: 200 }),
+
+  notFound: () => new Response("Not Found", { status: 404 }),
 };
