@@ -1,6 +1,6 @@
 import { ExecutionContext, KVNamespace, Request as WorkerRequest } from "@cloudflare/workers-types";
-import { fetchGames } from "./games/fetch-games";
 import { reply } from "./utils/responses";
+import { pull } from "./api/pull";
 
 export interface Env {
   SCOREBOARD_URL: string;
@@ -10,13 +10,17 @@ export interface Env {
 }
 
 export default {
-  async fetch(_request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
-    const fetchResult = await fetchGames(env);
-
-    if (!fetchResult.ok) {
-      return reply.internalServerError(fetchResult.error.message);
+  async fetch(request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
+    if (request.method !== "GET" && request.url !== "/") {
+      return reply.notFound();
     }
 
-    return reply.ok(JSON.stringify({ games: fetchResult.value }));
+    const pullResult = await pull(env);
+
+    if (!pullResult.ok) {
+      return reply.internalServerError(pullResult.error.message);
+    }
+
+    return reply.ok(JSON.stringify({ games: pullResult.value }));
   },
 };
