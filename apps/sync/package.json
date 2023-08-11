@@ -13,5 +13,8 @@
     "tsconfig": "workspace:*",
     "typescript": "5.1.6",
     "wrangler": "3.4.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.9"
   }
 }
