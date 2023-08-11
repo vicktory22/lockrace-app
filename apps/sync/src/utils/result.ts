@@ -24,11 +24,25 @@ export async function encaseAsync<T>(
 		const result = await promise;
 		return { ok: true, value: result };
 	} catch (e) {
-    console.log({ e });
 		if (e instanceof Error) {
 			return { ok: false, error: e };
 		}
 
 		return { ok: false, error: new Error("Unknown Error", { cause: e }) };
 	}
+}
+
+export function Ok<T>(value: T): Result<T> {
+	return { ok: true, value };
+}
+
+export function Err<E extends Error>(
+	err: string | E,
+	cause?: unknown,
+): Result<never, E | Error> {
+	if (err instanceof Error) {
+		return { ok: false, error: err };
+	}
+
+	return { ok: false, error: new Error(err, { cause }) };
 }
