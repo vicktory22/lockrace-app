@@ -22,6 +22,7 @@ export default {
       return reply.internalServerError(pullResult.error.message);
     }
 
+    // @ts-ignore
     console.log("Pull result received", pullResult.value.week);
 
     return reply.ok(JSON.stringify({ games: pullResult.value }));
