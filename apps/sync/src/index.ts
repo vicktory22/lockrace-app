@@ -12,6 +12,7 @@ export interface Env {
 export default {
   async fetch(request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
     if (request.method !== "GET" && request.url !== "/") {
+      console.log("Unknown request received", request);
       return reply.notFound();
     }
 
@@ -20,6 +21,8 @@ export default {
     if (!pullResult.ok) {
       return reply.internalServerError(pullResult.error.message);
     }
+
+    console.log("Pull result", pullResult.value);
 
     return reply.ok(JSON.stringify({ games: pullResult.value }));
   },
