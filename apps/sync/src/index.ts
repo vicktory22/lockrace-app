@@ -3,6 +3,7 @@ import { fetchGames } from "./games/fetch-games";
 import { reply } from "./utils/responses";
 
 export interface Env {
+  SCOREBOARD_URL: string;
   GAMES_URL: string;
   FOOTBALL_METADATA: KVNamespace;
   FOOTBALL_GAMES: KVNamespace;
