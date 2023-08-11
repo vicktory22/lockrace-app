@@ -22,7 +22,7 @@ export default {
       return reply.internalServerError(pullResult.error.message);
     }
 
-    console.log("Pull result", pullResult.value);
+    console.log("Pull result received", pullResult.value.week);
 
     return reply.ok(JSON.stringify({ games: pullResult.value }));
   },
