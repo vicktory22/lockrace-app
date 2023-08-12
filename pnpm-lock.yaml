@@ -211,10 +211,6 @@ importers:
         version: 1.9.0(zod@3.21.4)
 
   apps/sync:
-    dependencies:
-      dayjs:
-        specifier: ^1.11.9
-        version: 1.11.9
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20230801.0
