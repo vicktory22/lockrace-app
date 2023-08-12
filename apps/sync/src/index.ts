@@ -1,7 +1,7 @@
 import { ExecutionContext, KVNamespace, Request as WorkerRequest } from "@cloudflare/workers-types";
-import { reply } from "./utils/responses";
 import { pull } from "./api/pull";
 import { parseSchedulePayload } from "./api/parse-schedule";
+import { encaseAsync } from "./utils/result";
 
 export interface Env {
   SCOREBOARD_URL: string;
@@ -11,28 +11,25 @@ export interface Env {
 }
 
 export default {
-  async fetch(request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
-    const url = new URL(request.url);
-
-    if (request.method !== "GET" || url.pathname !== "/") {
-      console.log("Unknown request received", request);
-      return reply.notFound();
-    }
-
+  async scheduled(_request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
     const pullResult = await pull(env);
 
     if (!pullResult.ok) {
-      return reply.internalServerError(pullResult.error.message);
+      console.error(pullResult.error);
+      return;
     }
 
     const gamesResult = parseSchedulePayload(pullResult.value);
 
     if (!gamesResult.ok) {
-      return reply.internalServerError(gamesResult.error.message);
+      console.error(gamesResult.error);
+      return;
     }
 
-    await env.FOOTBALL_METADATA.put("schedule", gamesResult.value);
+    const saveResult = await encaseAsync(env.FOOTBALL_METADATA.put("schedule", gamesResult.value));
 
-    return reply.ok("OK");
+    if (!saveResult.ok) {
+      console.error(saveResult.error);
+    }
   },
 };
