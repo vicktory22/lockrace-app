@@ -1,8 +1,11 @@
 name = "sync"
 main = "./src/index.ts"
 compatibility_date = "2023-05-09"
-
 logpush = true
+workers_dev = false
+
+[triggers]
+crons = ["0/30 * * * *"]
 
 kv_namespaces = [
   { binding = "FOOTBALL_METADATA", id = "b2d7971277024af0bd53accd624c39de", preview_id = "d9a18c2543374cffa1c1a6d6936c8fba" },
