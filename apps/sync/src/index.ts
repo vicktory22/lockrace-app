@@ -31,6 +31,8 @@ export default {
       return reply.internalServerError(gamesResult.error.message);
     }
 
-    return reply.ok(gamesResult.value);
+    await env.FOOTBALL_METADATA.put("schedule", gamesResult.value);
+
+    return reply.ok("OK");
   },
 };
