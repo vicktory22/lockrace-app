@@ -1,8 +1,8 @@
 name = "sync"
 main = "./src/index.ts"
 compatibility_date = "2023-05-09"
-
 logpush = true
+workers_dev = false
 
 [triggers]
 crons = ["0/30 * * * *"]
