@@ -1,6 +1,7 @@
 import { ExecutionContext, KVNamespace, Request as WorkerRequest } from "@cloudflare/workers-types";
 import { reply } from "./utils/responses";
 import { pull } from "./api/pull";
+import { parseSchedulePayload } from "./api/parse-schedule";
 
 export interface Env {
   SCOREBOARD_URL: string;
@@ -24,10 +25,12 @@ export default {
       return reply.internalServerError(pullResult.error.message);
     }
 
-    // @ts-ignore
-    console.log("Pull result received", pullResult.value.week);
+    const gamesResult = parseSchedulePayload(pullResult.value);
 
-    return reply.ok("OK");
-    // return reply.ok(JSON.stringify({ games: pullResult.value }));
+    if (!gamesResult.ok) {
+      return reply.internalServerError(gamesResult.error.message);
+    }
+
+    return reply.ok(gamesResult.value);
   },
 };
