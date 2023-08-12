@@ -11,7 +11,9 @@ export interface Env {
 
 export default {
   async fetch(request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
-    if (request.method !== "GET" || request.url !== "/") {
+    const url = new URL(request.url);
+
+    if (request.method !== "GET" || url.pathname !== "/") {
       console.log("Unknown request received", request);
       return reply.notFound();
     }
