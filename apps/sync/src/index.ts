@@ -11,7 +11,7 @@ export interface Env {
 
 export default {
   async fetch(request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
-    if (request.method !== "GET" && request.url !== "/") {
+    if (request.method !== "GET" || request.url !== "/") {
       console.log("Unknown request received", request);
       return reply.notFound();
     }
@@ -25,6 +25,7 @@ export default {
     // @ts-ignore
     console.log("Pull result received", pullResult.value.week);
 
-    return reply.ok(JSON.stringify({ games: pullResult.value }));
+    return reply.ok("OK");
+    // return reply.ok(JSON.stringify({ games: pullResult.value }));
   },
 };
