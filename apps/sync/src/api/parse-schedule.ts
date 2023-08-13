@@ -20,18 +20,43 @@ export function parseSchedulePayload(schedulePayload: ScheduledPayload) {
       logo: competitor.team.logo,
     }));
 
+    const homeTeam = teams?.find((team) => team.homeAway === "home");
+    const awayTeam = teams?.find((team) => team.homeAway === "away");
+
     return {
       id: event.id,
       date: event.date,
       shortName: event.shortName,
       week: event.week,
       odds: {
-        spread: competition?.odds?.[0]?.details,
+        spread: parseSpread(competition?.odds?.[0]?.details, { home: homeTeam?.abbreviation, away: awayTeam?.abbreviation }),
         overUnder: competition?.odds?.[0]?.overUnder,
       },
-      teams,
+      teams: {
+        home: homeTeam,
+        away: awayTeam,
+      },
     };
   });
 
   return Ok(JSON.stringify(games));
 }
+
+function parseSpread(spread: string | undefined, teams: { home: string | undefined, away: string | undefined }) {
+  if (!spread) {
+    return undefined;
+  }
+
+  if (spread === "EVEN") {
+    return 0;
+  }
+
+  const [team, points] = spread.split(" ");
+
+  if (team === teams.home) {
+    return +points;
+  }
+
+  return (+points) * -1;
+}
+
