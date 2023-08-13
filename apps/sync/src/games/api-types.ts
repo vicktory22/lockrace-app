@@ -1,4 +1,4 @@
-export type ScheduledPayload = {
+export type ApiPayload = {
   events: Event[];
 };
 
