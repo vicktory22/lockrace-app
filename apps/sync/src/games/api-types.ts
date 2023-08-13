@@ -19,6 +19,7 @@ export type Competitor = {
   id: string;
   homeAway: HomeAway;
   team: Team;
+  score?: string;
 };
 
 export type HomeAway = "home" | "away";

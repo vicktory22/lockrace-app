@@ -19,6 +19,7 @@ export function parseApiPayload(apiPayload: ApiPayload): Result<KVGame[], Error>
       displayName: competitor.team.displayName,
       color: competitor.team.color,
       logo: competitor.team.logo,
+      score: competitor.score,
     }));
 
     const homeTeam = teams?.find((team) => team.homeAway === "home");
