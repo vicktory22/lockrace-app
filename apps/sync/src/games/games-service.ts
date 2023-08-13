@@ -4,7 +4,7 @@ import { pullFromApi } from "./api-pull";
 import { parseApiPayload } from "./parse-api-payload";
 import { KVGame } from "./parse-api-types";
 
-export async function getGames(env: Env): Promise<Result<KVGame[], Error>> {
+export async function getGamesFromApi(env: Env): Promise<Result<KVGame[], Error>> {
   const pullResult = await pullFromApi(env);
 
   if (!pullResult.ok) {
