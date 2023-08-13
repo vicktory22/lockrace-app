@@ -34,8 +34,10 @@ export function Ok<T>(value: T): Result<T> {
 
 export function Err<E extends Error>(err: string | E, cause?: unknown): Result<never, E | Error> {
   if (err instanceof Error) {
+    console.error(err);
     return { ok: false, error: err };
   }
 
+  console.error(err, { cause });
   return { ok: false, error: new Error(err, { cause }) };
 }

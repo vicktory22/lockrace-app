@@ -1,8 +1,8 @@
 import { Env } from "..";
 import { Err, Ok, Result, encaseAsync } from "../utils/result";
-import { ScheduledPayload } from "./schedule-types";
+import { ApiPayload } from "./api-types";
 
-export async function pull(env: Env): Promise<Result<ScheduledPayload, Error>> {
+export async function pullFromApi(env: Env): Promise<Result<ApiPayload, Error>> {
   const url = env.SCOREBOARD_URL;
 
   const apiResult = await encaseAsync(fetch(url).then((res) => res.json()));

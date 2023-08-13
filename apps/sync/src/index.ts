@@ -1,7 +1,6 @@
 import { ExecutionContext, KVNamespace, Request as WorkerRequest } from "@cloudflare/workers-types";
-import { pull } from "./api/pull";
-import { parseSchedulePayload } from "./api/parse-schedule";
 import { encaseAsync } from "./utils/result";
+import { getGames } from "./games/games-service";
 
 export interface Env {
   SCOREBOARD_URL: string;
@@ -12,24 +11,17 @@ export interface Env {
 
 export default {
   async scheduled(_request: WorkerRequest, env: Env, _ctx: ExecutionContext) {
-    const pullResult = await pull(env);
-
-    if (!pullResult.ok) {
-      console.error(pullResult.error);
-      return;
-    }
-
-    const gamesResult = parseSchedulePayload(pullResult.value);
+    const gamesResult = await getGames(env);
 
     if (!gamesResult.ok) {
-      console.error(gamesResult.error);
       return;
     }
 
-    const saveResult = await encaseAsync(env.FOOTBALL_METADATA.put("schedule", gamesResult.value));
+    const saveResult = await encaseAsync(env.FOOTBALL_METADATA.put("schedule", JSON.stringify(gamesResult.value)));
 
     if (!saveResult.ok) {
       console.error(saveResult.error);
+      return;
     }
   },
 };

@@ -1,8 +1,9 @@
-import { Err, Ok } from "../utils/result";
-import { ScheduledPayload } from "./schedule-types";
+import { Err, Ok, Result } from "../utils/result";
+import { ApiPayload } from "./api-types";
+import { KVGame } from "./parse-api-types";
 
-export function parseSchedulePayload(schedulePayload: ScheduledPayload) {
-  const events = schedulePayload?.events;
+export function parseApiPayload(apiPayload: ApiPayload): Result<KVGame[], Error> {
+  const events = apiPayload?.events;
 
   if (!events) {
     return Err("Unable to find events from api response");
@@ -29,7 +30,10 @@ export function parseSchedulePayload(schedulePayload: ScheduledPayload) {
       shortName: event.shortName,
       week: event.week,
       odds: {
-        spread: parseSpread(competition?.odds?.[0]?.details, { home: homeTeam?.abbreviation, away: awayTeam?.abbreviation }),
+        spread: parseSpread(competition?.odds?.[0]?.details, {
+          home: homeTeam?.abbreviation,
+          away: awayTeam?.abbreviation,
+        }),
         overUnder: competition?.odds?.[0]?.overUnder,
       },
       teams: {
@@ -39,10 +43,10 @@ export function parseSchedulePayload(schedulePayload: ScheduledPayload) {
     };
   });
 
-  return Ok(JSON.stringify(games));
+  return Ok(games);
 }
 
-function parseSpread(spread: string | undefined, teams: { home: string | undefined, away: string | undefined }) {
+function parseSpread(spread: string | undefined, teams: { home: string | undefined; away: string | undefined }) {
   if (!spread) {
     return undefined;
   }
@@ -57,6 +61,5 @@ function parseSpread(spread: string | undefined, teams: { home: string | undefin
     return +points;
   }
 
-  return (+points) * -1;
+  return +points * -1;
 }
-
