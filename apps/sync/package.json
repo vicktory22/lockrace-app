@@ -6,12 +6,21 @@
     "dev": "wrangler dev ./src/index.ts",
     "type:check": "tsc --noEmit",
     "format": "npx rome format ./src --write",
-    "lint": "npx rome check --apply-unsafe ./src"
+    "lint": "npx rome check --apply-unsafe ./src",
+    "generate": "drizzle-kit generate:sqlite",
+    "push": "drizzle-kit push:sqlite"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20230801.0",
+    "drizzle-kit": "0.19.13",
+    "drizzle-zod": "0.5.0",
     "tsconfig": "workspace:*",
     "typescript": "5.1.6",
-    "wrangler": "3.4.0"
+    "wrangler": "3.5.1"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "4.20230814.0",
+    "@libsql/client": "0.3.1",
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "0.28.2"
   }
 }
